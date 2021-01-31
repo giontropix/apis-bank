@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node ./build/main.js",
-    "dev": "nodemon src/main.ts",
+    "dev": "nodemon --ignore resources/banks.json src/main.ts",
     "test": "mocha -r ts-node/register src/test/*.test.ts"
   },
   "keywords": [],

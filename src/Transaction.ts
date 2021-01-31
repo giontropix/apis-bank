@@ -2,21 +2,16 @@ export class Transaction {
   constructor(
     private id: string,
     private debitorBank: string,
-    private debitorName: string,
+    private debitorId: string,
     private creditorBank: string,
-    private creditorName: string,
+    private creditorId: string,
     private amount: number,
-    private commission: number
+    private commission: number = 0
   ) {}
 
   public getId = () => this.id;
-  public toJson = () => ({
-    id: this.id,
-    debit_bank: this.debitorBank,
-    debitor_name: this.debitorName,
-    credit_bank: this.creditorBank,
-    creditor_name: this.creditorName,
-    amount: `${this.amount}€`,
-    commission: `${this.commission}€`,
-  });
+  public getDebitorId = () => this.debitorId;
+  public getCreditorId = () => this.creditorId;
+  public getDebitorBank = () => this.debitorBank;
+  public getCreditorBank = () => this.creditorBank;
 }

@@ -1,52 +1,96 @@
 import chai from "chai";
 import request from "supertest";
 import { Transaction } from "../Transaction";
-import { app, listOfTransactions } from "../main";
+import { app, listOfBanks, readFile, writeToFile } from "../main";
 
-const uri = "/transactions";
+readFile();
+const uri = `/finances/banks/${listOfBanks[0].getId()}/transactions/`;
 chai.should();
 
-describe("Transactions", () => {
-  before(() =>
-    listOfTransactions.push(
-      new Transaction("testID", "testCredit", "testDebit", 1000)
+describe("TRANSACTIONS", () => {
+  describe("Show transactions", () => {
+  
+  before(() => listOfBanks[0].getListOfTransactions().push(
+      new Transaction("testID", "debitorBankTest", "debitorNameTest", "creditorBankTest", "creditorNameTest", 1000)
+      )
+  );
+  before(() => listOfBanks[1].getListOfTransactions().push(
+    new Transaction("testID", "debitorBankTest", "debitorNameTest", "creditorBankTest", "creditorNameTest", -1000)
     )
   );
-  after(()=> listOfTransactions.length = 0);
+  before(() => writeToFile());
+
+  after(() => listOfBanks[0].getListOfTransactions().pop());
+  after(() => listOfBanks[1].getListOfTransactions().pop());
+  after(() => writeToFile());
   
   it("Show all transaction", async () => {
     const { status, body } = await request(app).get(uri).set("Accept", "application/json");
     status.should.equal(200);
-    body.should.have.lengthOf(listOfTransactions.length);
+    body.should.have.lengthOf(listOfBanks[0].getListOfTransactions().length);
   });
+
   it("Show single transaction", async () => {
-    const { status, body: { id } } = await request(app).get(uri + `/${listOfTransactions[listOfTransactions.length - 1].getId()}`).set("Accept", "application/json");
+    const { status, body: { id } } = await request(app).get(uri + `${listOfBanks[0].getListOfTransactions()[listOfBanks[0].getListOfTransactions().length - 1].getId()}`).set("Accept", "application/json");
     status.should.equal(200);
-    id.should.equal(listOfTransactions[listOfTransactions.length - 1].getId());
+    id.should.equal(listOfBanks[0].getListOfTransactions()[listOfBanks[0].getListOfTransactions().length - 1].getId());
   });
+
   it("Show single transaction with wrong id", async () => {
-    const { status, body } = await request(app).get(uri + `/wrongID`).set("Accept", "application/json");
+    const { status, body } = await request(app).get(uri + `wrongID`).set("Accept", "application/json");
     status.should.equal(404);
     body.should.have.property("error");
   });
-  it("Do a transaction", async () => {
-    const {status, body} = await request(app).post(uri).set("Accept", "application/json").send({name: "testIDTransactionDid", idCredit:"A0", idDebit: "A1", amount:100});
-    status.should.equal(201);
-    body.should.have.property("transaction");
-  });
-  it("Do a transaction with credit wrong id", async () => {
-    const {status, body} = await request(app).post(uri).set("Accept", "application/json").send({name: "testIDTransactionDid", idCredit:"wrong", idDebit: "A1", amount:100});
-    status.should.equal(404);
-    body.should.have.property("error");
-  });
-  it("Do a transaction with debit wrong id", async () => {
-    const {status, body} = await request(app).post(uri).set("Accept", "application/json").send({name: "testIDTransactionDid", idCredit:"A0", idDebit: "wrong", amount:100});
-    status.should.equal(404);
-    body.should.have.property("error");
-  });
-  it("Do a transaction without sufficient money", async () => {
-    const {status, body} = await request(app).post(uri).set("Accept", "application/json").send({name: "testIDTransactionDid", idCredit:"A0", idDebit: "A1", amount:1000000});
-    status.should.equal(401);
-    body.should.have.property("error");
-  });
+  })
+  
+  describe("Create transactions", () => {
+
+    after(() => listOfBanks[0].getListOfTransactions().pop());
+    after(() => listOfBanks[1].getListOfTransactions().pop());
+    after(() => writeToFile());
+
+    it("Do a transaction", async () => {
+      const {status, body} = await request(app).post(uri).set("Accept", "application/json").send({
+        debitor_id: "pippo",
+        creditor_id: "saro",
+        creditor_bank_id: "fin",
+        amount: 1
+    });
+      status.should.equal(201);
+      body.should.have.property("transaction");
+    });
+  
+    it("Do a transaction with credit wrong id", async () => {
+      const {status, body} = await request(app).post(uri).set("Accept", "application/json").send({
+        debitor_id: "pippo",
+        creditor_id: "wrong",
+        creditor_bank_id: "fin",
+        amount: 1
+    });
+      status.should.equal(404);
+      body.should.have.property("error");
+    });
+  
+    it("Do a transaction with debit wrong id", async () => {
+      const {status, body} = await request(app).post(uri).set("Accept", "application/json").send({
+        debitor_id: "wrong",
+        creditor_id: "saro",
+        creditor_bank_id: "fin",
+        amount: 1
+    });
+      status.should.equal(404);
+      body.should.have.property("error");
+    });
+  
+    it("Do a transaction without sufficient money", async () => {
+      const {status, body} = await request(app).post(uri).set("Accept", "application/json").send({
+        debitor_id: "pippo",
+        creditor_id: "saro",
+        creditor_bank_id: "fin",
+        amount: 100000000
+    });
+      status.should.equal(401);
+      body.should.have.property("error");
+    });
+  })
 });

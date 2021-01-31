@@ -1,0 +1,110 @@
+[
+  {
+    "id": "ing",
+    "name": "Ing Direct",
+    "balance": 1011,
+    "accountsPlafond": 2582,
+    "listOfAccounts": [
+      {
+        "id": "pippo",
+        "name": "Pippo",
+        "balance": 582
+      },
+      {
+        "id": "pluto",
+        "name": "Pluto",
+        "balance": 1000
+      },
+      {
+        "id": "A2",
+        "name": "Giovanni",
+        "balance": 1000
+      }
+    ],
+    "listOfTransactions": [
+      {
+        "id": "T1",
+        "debitorBank": "ing",
+        "creditorBank": "fin",
+        "amount": -101,
+        "commission": 1
+      },
+      {
+        "id": "T2",
+        "debitorBank": "ing",
+        "creditorBank": "fin",
+        "amount": -101,
+        "commission": 1
+      },
+      {
+        "id": "T3",
+        "debitorBank": "ing",
+        "creditorBank": "fin",
+        "amount": -101,
+        "commission": 1
+      },
+      {
+        "id": "T4",
+        "debitorBank": "ing",
+        "debitorId": "pippo",
+        "creditorBank": "fin",
+        "creditorId": "saro",
+        "amount": -101,
+        "commission": 1
+      }
+    ]
+  },
+  {
+    "id": "fin",
+    "name": "Fineco",
+    "balance": 1000,
+    "accountsPlafond": 1407,
+    "listOfAccounts": [
+      {
+        "id": "saro",
+        "name": "Saro",
+        "balance": 1407
+      }
+    ],
+    "listOfTransactions": [
+      {
+        "id": "T1",
+        "debitorBank": "ing",
+        "creditorBank": "fin",
+        "amount": 100,
+        "commission": 0
+      },
+      {
+        "id": "T2",
+        "debitorBank": "ing",
+        "creditorBank": "fin",
+        "amount": 100,
+        "commission": 0
+      },
+      {
+        "id": "T3",
+        "debitorBank": "ing",
+        "creditorBank": "fin",
+        "amount": 100,
+        "commission": 0
+      },
+      {
+        "id": "T4",
+        "debitorBank": "ing",
+        "debitorId": "pippo",
+        "creditorBank": "fin",
+        "creditorId": "saro",
+        "amount": 100,
+        "commission": 0
+      }
+    ]
+  },
+  {
+    "id": "wid",
+    "name": "Widiba",
+    "balance": 1000,
+    "accountsPlafond": 0,
+    "listOfAccounts": [],
+    "listOfTransactions": []
+  }
+]

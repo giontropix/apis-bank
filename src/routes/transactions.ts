@@ -1,6 +1,7 @@
+import { use } from "chai";
 import express from "express";
 import { body, validationResult } from "express-validator";
-import { listOfBanks } from "../main";
+import { listOfBanks, writeToFile } from "../main";
 import { Transaction } from "../Transaction";
 
 const router = express.Router();
@@ -24,6 +25,17 @@ router.get("/:bankId/transactions/:id", ({ params: { bankId, id } }, res) => {
   if (!transaction) return res.status(404).json({ error: "user not found" });
   return res.status(200).json(transaction);
 });
+
+router.get("/:bankId/transactions/", ({params: {bankId}, query: {creditor, debitor, user, creditorBank, debitorBank, generalBank}}, res) => {
+  const bank = listOfBanks.find((bank) => bank.getId() === bankId);
+  if (!bank) return res.status(404).json({ error: "bank not found" });
+  if(debitor) return bank.getListOfTransactions().filter(transaction => transaction.getDebitorId() === debitor);
+  if(creditor) return bank.getListOfTransactions().filter(transaction => transaction.getCreditorId() === creditor);
+  if(user) return bank.getListOfTransactions().filter(transaction => transaction.getCreditorId() === user || transaction.getDebitorId() === user)
+  if(creditorBank) return bank.getListOfTransactions().filter(transaction => transaction.getCreditorBank() === creditorBank);
+  if(debitorBank) return bank.getListOfTransactions().filter(transaction => transaction.getDebitorBank() === debitorBank);
+  if(generalBank) return bank.getListOfTransactions().filter(transaction => transaction.getDebitorBank() === debitorBank || transaction.getCreditorBank() === creditorBank);
+})
 
 router.post(
   "/:bankId/transactions/",
@@ -57,11 +69,11 @@ router.post(
     creditorBank.setAccountsPlafond(creditorBank.getAccountsPlafond() + amount);
 
     debitorBank.getListOfTransactions().push(new Transaction(
-            "T" + debitorBank.getListOfTransactions().length.toString(),
+            "T" + (debitorBank.getListOfTransactions().length + 1).toString(),
             debitorBank.getId(),
-            debitorAccount.getName(),
+            debitorAccount.getId(),
             creditorBank.getId(),
-            creditorAccount.getName(),
+            creditorAccount.getId(),
             - (amount + commission),
             commission
           )
@@ -70,14 +82,14 @@ router.post(
     creditorBank.getListOfTransactions().push(new Transaction(
             "T" + debitorBank.getListOfTransactions().length.toString(),
             debitorBank.getId(),
-            debitorAccount.getName(),
+            debitorAccount.getId(),
             creditorBank.getId(),
-            creditorAccount.getName(),
-            amount,
-            commission
+            creditorAccount.getId(),
+            amount
           )
     );
-    return res.status(201).json({transaction: debitorBank.getListOfTransactions()[debitorBank.getListOfTransactions().length - 1].toJson()});
+    writeToFile();
+    return res.status(201).json({transaction: debitorBank.getListOfTransactions()[debitorBank.getListOfTransactions().length - 1]});
   }
 );
 

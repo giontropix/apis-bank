@@ -15,7 +15,7 @@ export class Bank {
   public getBalance = (): number => this.balance;
   public getListOfAccounts = (): Account[] => this.listOfAccounts;
   public getListOfTransactions = (): Transaction[] => this.listOfTransactions;
-  public setBalance = (value: number): number => (this.balance = value);
-  public setAccountsPlafond = (value: number): number => (this.accountsPlafond = value);
+  public setBalance = (value: number): number => this.balance = value;
+  public setAccountsPlafond = (value: number): number => this.accountsPlafond = value;
   public getAccountsPlafond = () => this.accountsPlafond;
 }

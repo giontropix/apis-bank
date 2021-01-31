@@ -1,5 +1,5 @@
-import express, { NextFunction } from "express";
-import { listOfBanks } from "../main";
+import express from "express";
+import { listOfBanks, writeToFile } from "../main";
 import { body } from "express-validator";
 import { handleErrors } from "./transactions";
 import { Bank } from "../Bank";
@@ -20,6 +20,7 @@ router.post("/", body("name").exists().notEmpty(), body("id").exists().notEmpty(
   const bank = listOfBanks.find((bank) => bank.getId() === id);
   if (bank) return res.status(403).json({ error: "Bank already exists" });
   listOfBanks.push(new Bank(id, name, budget));
+  writeToFile();
   return res.status(201).json({ message: `${name} was added!` });
   }
 );
