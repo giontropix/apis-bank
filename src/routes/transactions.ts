@@ -41,7 +41,7 @@ router.post(
   "/:bankId/transactions/",
   body("creditor_id").exists().notEmpty().isString(),
   body("debitor_id").exists().notEmpty().isString(),
-  body("amount").exists().notEmpty().isNumeric(),
+  body("amount").exists().notEmpty().isFloat({min: 1}),
   handleErrors, ({params: { bankId }, body: { creditor_id, creditor_bank_id, debitor_id, amount }},res) => {
 
     const debitorBank = listOfBanks.find((bank) => bank.getId() === bankId);

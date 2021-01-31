@@ -2,13 +2,13 @@
   {
     "id": "ing",
     "name": "Ing Direct",
-    "balance": 1011,
-    "accountsPlafond": 2582,
+    "balance": 1013,
+    "accountsPlafond": 2479,
     "listOfAccounts": [
       {
         "id": "pippo",
         "name": "Pippo",
-        "balance": 582
+        "balance": 479
       },
       {
         "id": "pluto",
@@ -51,6 +51,15 @@
         "creditorId": "saro",
         "amount": -101,
         "commission": 1
+      },
+      {
+        "id": "T5",
+        "debitorBank": "ing",
+        "debitorId": "pippo",
+        "creditorBank": "fin",
+        "creditorId": "saro",
+        "amount": -101,
+        "commission": 1
       }
     ]
   },
@@ -58,12 +67,12 @@
     "id": "fin",
     "name": "Fineco",
     "balance": 1000,
-    "accountsPlafond": 1407,
+    "accountsPlafond": 1508,
     "listOfAccounts": [
       {
         "id": "saro",
         "name": "Saro",
-        "balance": 1407
+        "balance": 1508
       }
     ],
     "listOfTransactions": [
@@ -96,13 +105,22 @@
         "creditorId": "saro",
         "amount": 100,
         "commission": 0
+      },
+      {
+        "id": "T5",
+        "debitorBank": "ing",
+        "debitorId": "pippo",
+        "creditorBank": "fin",
+        "creditorId": "saro",
+        "amount": 100,
+        "commission": 0
       }
     ]
   },
   {
     "id": "wid",
     "name": "Widiba",
-    "balance": 1000,
+    "balance": 0,
     "accountsPlafond": 0,
     "listOfAccounts": [],
     "listOfTransactions": []

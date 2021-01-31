@@ -16,7 +16,7 @@ router.get("/:id", ({ params: { id } }, res) => {
   return res.status(200).json(bank);
 });
 
-router.post("/", body("name").exists().notEmpty(), body("id").exists().notEmpty(), body("balance").exists().notEmpty().isNumeric(), handleErrors, ({ body: { name, id, budget } }, res) => {
+router.post("/", body("name").exists().notEmpty(), body("id").exists().notEmpty(), body("balance").exists().notEmpty().isFloat(), handleErrors, ({ body: { name, id, budget } }, res) => {
   const bank = listOfBanks.find((bank) => bank.getId() === id);
   if (bank) return res.status(403).json({ error: "Bank already exists" });
   listOfBanks.push(new Bank(id, name, budget));
