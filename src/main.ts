@@ -42,8 +42,8 @@ export const writeToFile = () => {
 const updateBalance = () => {
   readFile()
   const bool = listOfBanks.map(bank => {
-      if(bank.getListOfAccounts().length > 0) {
-      const count = bank.getListOfAccounts().map(account => account.getBalance()).reduce((acc, curr) => acc + curr)
+      if(bank.getAccounts().length > 0) {
+      const count = bank.getAccounts().map(account => account.getBalance()).reduce((acc, curr) => acc + curr)
       return bank.getAccountsPlafond() === count ? true : bank.setAccountsPlafond(count)
       }
   })

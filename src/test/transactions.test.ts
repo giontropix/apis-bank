@@ -10,30 +10,30 @@ chai.should();
 describe("TRANSACTIONS", () => {
   describe("Show transactions", () => {
   
-  before(() => listOfBanks[0].getListOfTransactions().push(
+  before(() => listOfBanks[0].getTransactions().push(
       new Transaction("testID", "debitorBankTest", "debitorNameTest", "creditorBankTest", "creditorNameTest", 1000)
       )
   );
-  before(() => listOfBanks[1].getListOfTransactions().push(
+  before(() => listOfBanks[1].getTransactions().push(
     new Transaction("testID", "debitorBankTest", "debitorNameTest", "creditorBankTest", "creditorNameTest", -1000)
     )
   );
   before(() => writeToFile());
 
-  after(() => listOfBanks[0].getListOfTransactions().pop());
-  after(() => listOfBanks[1].getListOfTransactions().pop());
+  after(() => listOfBanks[0].getTransactions().pop());
+  after(() => listOfBanks[1].getTransactions().pop());
   after(() => writeToFile());
   
   it("Show all transaction", async () => {
     const { status, body } = await request(app).get(uri).set("Accept", "application/json");
     status.should.equal(200);
-    body.should.have.lengthOf(listOfBanks[0].getListOfTransactions().length);
+    body.should.have.lengthOf(listOfBanks[0].getTransactions().length);
   });
 
   it("Show single transaction", async () => {
-    const { status, body: { id } } = await request(app).get(uri + `${listOfBanks[0].getListOfTransactions()[listOfBanks[0].getListOfTransactions().length - 1].getId()}`).set("Accept", "application/json");
+    const { status, body: { id } } = await request(app).get(uri + `${listOfBanks[0].getTransactions()[listOfBanks[0].getTransactions().length - 1].getId()}`).set("Accept", "application/json");
     status.should.equal(200);
-    id.should.equal(listOfBanks[0].getListOfTransactions()[listOfBanks[0].getListOfTransactions().length - 1].getId());
+    id.should.equal(listOfBanks[0].getTransactions()[listOfBanks[0].getTransactions().length - 1].getId());
   });
 
   it("Show single transaction with wrong id", async () => {
@@ -45,8 +45,8 @@ describe("TRANSACTIONS", () => {
   
   describe("Create transactions", () => {
 
-    after(() => listOfBanks[0].getListOfTransactions().pop());
-    after(() => listOfBanks[1].getListOfTransactions().pop());
+    after(() => listOfBanks[0].getTransactions().pop());
+    after(() => listOfBanks[1].getTransactions().pop());
     after(() => writeToFile());
 
     it("Do a transaction", async () => {
