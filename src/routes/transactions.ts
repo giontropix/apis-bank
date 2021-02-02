@@ -1,5 +1,5 @@
 import express from "express";
-import { body, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import { listOfBanks, writeToFile } from "../main";
 import { Transaction } from "../Transaction";
 
@@ -11,36 +11,37 @@ export const handleErrors = (req: express.Request, res: express.Response, next: 
   else next();
 };
 
-router.get("/:bankId/transactions/", ({ params: { bankId } }, res) => {
-  const bank = listOfBanks.find((bank) => bank.getId() === bankId);
+router.get("/:bankId/transactions/", ({params: {bankId}, query: {creditor, debitor, generalUser, creditorBank, debitorBank, generalBank, positive, negative}}, res) => {
+  const bank = listOfBanks.find((bank) => bank.getId() === bankId.toLowerCase());
   if (!bank) return res.status(404).json({ error: "bank not found" });
+  if(debitor) return res.status(201).json({result : bank.getTransactions().filter(transaction => transaction.getDebitorId() === debitor)}) 
+  if(creditor) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getCreditorId() === creditor)})
+  if(generalUser) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getCreditorId() === generalUser || transaction.getDebitorId() === generalUser)})
+  if(creditorBank) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getCreditorBank() === creditorBank)})
+  if(debitorBank) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getDebitorBank() === debitorBank)}) 
+  if(generalBank) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getDebitorBank() === debitorBank || transaction.getCreditorBank() === creditorBank)})
+  if(positive === "true") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() > 0)})
+  if(negative === "true") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() < 0)})
+  if(generalUser && positive === "true") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() > 0 && transaction.getCreditorId() === generalUser)})
+  if(generalUser && negative === "true") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() < 0 && transaction.getDebitorId() === generalUser)})
   return res.status(200).json(bank.getTransactions());
-});
+})
 
 router.get("/:bankId/transactions/:id", ({ params: { bankId, id } }, res) => {
-  const bank = listOfBanks.find((bank) => bank.getId() === bankId);
+  const bank = listOfBanks.find((bank) => bank.getId() === bankId.toLowerCase());
   if (!bank) return res.status(404).json({ error: "bank not found" });
-  const transaction = bank.getTransactions().find((item) => item.getId() === id);
+  const transaction = bank.getTransactions().find((item) => item.getId() === id.toLowerCase());
   if (!transaction) return res.status(404).json({ error: "user not found" });
   return res.status(200).json(transaction);
 });
 
-router.get("/:bankId/transactions/", ({params: {bankId}, query: {creditor, debitor, user, creditorBank, debitorBank, generalBank}}, res) => {
-  const bank = listOfBanks.find((bank) => bank.getId() === bankId);
-  if (!bank) return res.status(404).json({ error: "bank not found" });
-  if(debitor) return bank.getTransactions().filter(transaction => transaction.getDebitorId() === debitor);
-  if(creditor) return bank.getTransactions().filter(transaction => transaction.getCreditorId() === creditor);
-  if(user) return bank.getTransactions().filter(transaction => transaction.getCreditorId() === user || transaction.getDebitorId() === user)
-  if(creditorBank) return bank.getTransactions().filter(transaction => transaction.getCreditorBank() === creditorBank);
-  if(debitorBank) return bank.getTransactions().filter(transaction => transaction.getDebitorBank() === debitorBank);
-  if(generalBank) return bank.getTransactions().filter(transaction => transaction.getDebitorBank() === debitorBank || transaction.getCreditorBank() === creditorBank);
-})
-
 router.post(
   "/:bankId/transactions/",
-  body("creditor_id").exists().notEmpty().isString(),
-  body("debitor_id").exists().notEmpty().isString(),
-  body("description").exists().notEmpty().isString(),
+  param("bankId").toLowerCase(),
+  body("debitor_id").exists().notEmpty().isString().toLowerCase(),
+  body("creditor_id").exists().notEmpty().isString().toLowerCase(),
+  body("creditor_bank_id").exists().notEmpty().isString().toLowerCase(),
+  body("description").exists().notEmpty().isString().toLowerCase(),
   body("amount").exists().notEmpty().isFloat({min: 1}),
   handleErrors, ({params: { bankId }, body: { creditor_id, creditor_bank_id, debitor_id, description, amount }},res) => {
 
@@ -69,7 +70,7 @@ router.post(
     creditorBank.setAccountsPlafond(creditorBank.getAccountsPlafond() + amount);
 
     debitorBank.getTransactions().push(new Transaction(
-            "T" + (debitorBank.getTransactions().length + 1).toString(),
+            "t" + (debitorBank.getTransactions().length + 1).toString(),
             debitorBank.getId(),
             debitorAccount.getId(),
             creditorBank.getId(),
@@ -81,7 +82,7 @@ router.post(
     );
 
     creditorBank.getTransactions().push(new Transaction(
-            "T" + debitorBank.getTransactions().length.toString(),
+            "t" + debitorBank.getTransactions().length.toString(),
             debitorBank.getId(),
             debitorAccount.getId(),
             creditorBank.getId(),

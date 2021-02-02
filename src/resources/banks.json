@@ -3,22 +3,27 @@
     "id": "ing",
     "name": "Ing Direct",
     "balance": 1015,
-    "accountsPlafond": 1898,
+    "accountsPlafond": 11898,
     "accounts": [
       {
         "id": "pippo",
         "name": "Pippo",
-        "balance": 898
+        "balance": 797
       },
       {
         "id": "pluto",
         "name": "Pluto",
         "balance": 1000
+      },
+      {
+        "id": "a3",
+        "name": "Giovanni",
+        "balance": 10101
       }
     ],
     "transactions": [
       {
-        "id": "T1",
+        "id": "t1",
         "debitorBank": "ing",
         "debitorId": "pippo",
         "creditorBank": "fin",
@@ -26,6 +31,46 @@
         "description": "regolamenti di conti",
         "amount": -102,
         "commission": 1
+      },
+      {
+        "id": "t2",
+        "debitorBank": "ing",
+        "debitorId": "pippo",
+        "creditorBank": "ing",
+        "creditorId": "a3",
+        "description": "test",
+        "amount": -101,
+        "commission": 0
+      },
+      {
+        "id": "t2",
+        "debitorBank": "ing",
+        "debitorId": "pippo",
+        "creditorBank": "ing",
+        "creditorId": "a3",
+        "description": "test",
+        "amount": 101,
+        "commission": 0
+      },
+      {
+        "id": "t4",
+        "debitorBank": "ing",
+        "debitorId": "a3",
+        "creditorBank": "ing",
+        "creditorId": "pippo",
+        "description": "test",
+        "amount": -101,
+        "commission": 0
+      },
+      {
+        "id": "t4",
+        "debitorBank": "ing",
+        "debitorId": "a3",
+        "creditorBank": "ing",
+        "creditorId": "pippo",
+        "description": "test",
+        "amount": 101,
+        "commission": 0
       }
     ]
   },
@@ -43,7 +88,7 @@
     ],
     "transactions": [
       {
-        "id": "T1",
+        "id": "t1",
         "debitorBank": "ing",
         "debitorId": "pippo",
         "creditorBank": "fin",
@@ -53,5 +98,13 @@
         "commission": 0
       }
     ]
+  },
+  {
+    "id": "int",
+    "name": "Banca Intesa",
+    "balance": 1000,
+    "accountsPlafond": 0,
+    "accounts": [],
+    "transactions": []
   }
 ]

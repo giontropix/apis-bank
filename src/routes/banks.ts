@@ -11,7 +11,7 @@ router.get("/", (_, res) => {
 });
 
 router.get("/:id", ({ params: { id } }, res) => {
-  const bank = listOfBanks.find((bank) => bank.getId() == id);
+  const bank = listOfBanks.find((bank) => bank.getId() == id.toLowerCase());
   if (!bank) return res.status(404).json({ error: "bank not found" });
   return res.status(200).json(bank);
 });

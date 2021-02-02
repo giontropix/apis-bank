@@ -15,4 +15,5 @@ export class Transaction {
   public getCreditorId = () => this.creditorId;
   public getDebitorBank = () => this.debitorBank;
   public getCreditorBank = () => this.creditorBank;
+  public getAmount = () => this.amount;
 }
