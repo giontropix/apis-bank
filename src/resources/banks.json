@@ -2,63 +2,29 @@
   {
     "id": "ing",
     "name": "Ing Direct",
-    "balance": 1013,
-    "accountsPlafond": 2479,
-    "listOfAccounts": [
+    "balance": 1015,
+    "accountsPlafond": 1898,
+    "accounts": [
       {
         "id": "pippo",
         "name": "Pippo",
-        "balance": 479
+        "balance": 898
       },
       {
         "id": "pluto",
         "name": "Pluto",
         "balance": 1000
-      },
-      {
-        "id": "A2",
-        "name": "Giovanni",
-        "balance": 1000
       }
     ],
-    "listOfTransactions": [
+    "transactions": [
       {
         "id": "T1",
         "debitorBank": "ing",
-        "creditorBank": "fin",
-        "amount": -101,
-        "commission": 1
-      },
-      {
-        "id": "T2",
-        "debitorBank": "ing",
-        "creditorBank": "fin",
-        "amount": -101,
-        "commission": 1
-      },
-      {
-        "id": "T3",
-        "debitorBank": "ing",
-        "creditorBank": "fin",
-        "amount": -101,
-        "commission": 1
-      },
-      {
-        "id": "T4",
-        "debitorBank": "ing",
         "debitorId": "pippo",
         "creditorBank": "fin",
         "creditorId": "saro",
-        "amount": -101,
-        "commission": 1
-      },
-      {
-        "id": "T5",
-        "debitorBank": "ing",
-        "debitorId": "pippo",
-        "creditorBank": "fin",
-        "creditorId": "saro",
-        "amount": -101,
+        "description": "regolamenti di conti",
+        "amount": -102,
         "commission": 1
       }
     ]
@@ -67,62 +33,25 @@
     "id": "fin",
     "name": "Fineco",
     "balance": 1000,
-    "accountsPlafond": 1508,
-    "listOfAccounts": [
+    "accountsPlafond": 1101,
+    "accounts": [
       {
         "id": "saro",
         "name": "Saro",
-        "balance": 1508
+        "balance": 1101
       }
     ],
-    "listOfTransactions": [
+    "transactions": [
       {
         "id": "T1",
         "debitorBank": "ing",
-        "creditorBank": "fin",
-        "amount": 100,
-        "commission": 0
-      },
-      {
-        "id": "T2",
-        "debitorBank": "ing",
-        "creditorBank": "fin",
-        "amount": 100,
-        "commission": 0
-      },
-      {
-        "id": "T3",
-        "debitorBank": "ing",
-        "creditorBank": "fin",
-        "amount": 100,
-        "commission": 0
-      },
-      {
-        "id": "T4",
-        "debitorBank": "ing",
         "debitorId": "pippo",
         "creditorBank": "fin",
         "creditorId": "saro",
-        "amount": 100,
-        "commission": 0
-      },
-      {
-        "id": "T5",
-        "debitorBank": "ing",
-        "debitorId": "pippo",
-        "creditorBank": "fin",
-        "creditorId": "saro",
-        "amount": 100,
+        "description": "regolamenti di conti",
+        "amount": 101,
         "commission": 0
       }
     ]
-  },
-  {
-    "id": "wid",
-    "name": "Widiba",
-    "balance": 0,
-    "accountsPlafond": 0,
-    "listOfAccounts": [],
-    "listOfTransactions": []
   }
 ]

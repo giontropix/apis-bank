@@ -40,8 +40,9 @@ router.post(
   "/:bankId/transactions/",
   body("creditor_id").exists().notEmpty().isString(),
   body("debitor_id").exists().notEmpty().isString(),
+  body("description").exists().notEmpty().isString(),
   body("amount").exists().notEmpty().isFloat({min: 1}),
-  handleErrors, ({params: { bankId }, body: { creditor_id, creditor_bank_id, debitor_id, amount }},res) => {
+  handleErrors, ({params: { bankId }, body: { creditor_id, creditor_bank_id, debitor_id, description, amount }},res) => {
 
     const debitorBank = listOfBanks.find((bank) => bank.getId() === bankId);
     if (!debitorBank) return res.status(404).json({ error: "debitor's bank not found" });
@@ -73,6 +74,7 @@ router.post(
             debitorAccount.getId(),
             creditorBank.getId(),
             creditorAccount.getId(),
+            description,
             - (amount + commission),
             commission
           )
@@ -84,6 +86,7 @@ router.post(
             debitorAccount.getId(),
             creditorBank.getId(),
             creditorAccount.getId(),
+            description,
             amount
           )
     );

@@ -1,7 +1,7 @@
 import express from "express";
 import { Account } from "../Account";
 import { listOfBanks, writeToFile } from "../main";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { handleErrors } from "./transactions";
 
 const router = express.Router();
@@ -20,7 +20,7 @@ router.get("/:bankId/accounts/:id", ({ params: { bankId, id } }, res) => {
   return res.status(200).json(account);
 });
 
-router.post("/:bankId/accounts/", body("name").exists().notEmpty().not().isNumeric(), body("balance").exists().isFloat(), handleErrors,({ params: { bankId }, body: { name, balance } }, res) => {
+router.post("/:bankId/accounts/", param("bankId").toLowerCase(), body("name").exists().notEmpty().not().isNumeric(), body("balance").exists().isFloat(), handleErrors,({ params: { bankId }, body: { name, balance } }, res) => {
   const bank = listOfBanks.find((bank) => bank.getId() === bankId);
   if (!bank) return res.status(404).json({ error: "bank not found" });
   bank.getAccounts().push(new Account(`A${(bank.getAccounts().length + 1).toString()}`, name, balance));

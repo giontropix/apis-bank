@@ -5,6 +5,7 @@ export class Transaction {
     private debitorId: string,
     private creditorBank: string,
     private creditorId: string,
+    private description: string,
     private amount: number,
     private commission: number = 0
   ) {}

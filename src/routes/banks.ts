@@ -16,10 +16,10 @@ router.get("/:id", ({ params: { id } }, res) => {
   return res.status(200).json(bank);
 });
 
-router.post("/", body("name").exists().notEmpty(), body("id").exists().notEmpty(), body("balance").exists().notEmpty().isFloat(), handleErrors, ({ body: { name, id, budget } }, res) => {
+router.post("/", body("name").exists().notEmpty(), body("id").exists().notEmpty().toLowerCase(), body("balance").exists().notEmpty().isFloat(), handleErrors, ({ body: { name, id, balance } }, res) => {
   const bank = listOfBanks.find((bank) => bank.getId() === id);
   if (bank) return res.status(403).json({ error: "Bank already exists" });
-  listOfBanks.push(new Bank(id, name, budget));
+  listOfBanks.push(new Bank(id, name, balance));
   writeToFile();
   return res.status(201).json({ message: `${name} was added!` });
   }

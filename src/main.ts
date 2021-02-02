@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(3000, () => console.log("Server started"));
 
-const path: string = "/Users/studente/Desktop/Steve Jobs Academy/Secondo anno/Web Beck End/typescript-bank/src/resources/banks.json";
+const path: string = "src/resources/banks.json";
 
 export let listOfBanks: Bank[] = [];
 
@@ -21,9 +21,9 @@ export const readFile = (_?: express.Request, __?: express.Response, next?: expr
   try {
     const data = fs.readFileSync(path, "utf8");
     listOfBanks = JSON.parse(data).map((bank: any) => {
-      if(bank) return bank = new Bank(bank.id, bank.name, bank.balance, bank.accountsPlafond, bank.listOfAccounts.map((account: any) => {
-         if (account) return account = new Account(account.id, account.name, account.balance)}), bank.listOfTransactions.map((transaction: any) => {
-           if (transaction) return transaction = new Transaction(transaction.id, transaction.debitorBank, transaction.debitorId, transaction.creditorBank, transaction.creditorId, transaction.amount, transaction.commission)}))
+      if(bank) return bank = new Bank(bank.id, bank.name, bank.balance, bank.accountsPlafond, bank.accounts.map((account: any) => {
+         if (account) return account = new Account(account.id, account.name, account.balance)}), bank.transactions.map((transaction: any) => {
+           if (transaction) return transaction = new Transaction(transaction.id, transaction.debitorBank, transaction.debitorId, transaction.creditorBank, transaction.creditorId, transaction.description, transaction.amount, transaction.commission)}))
           });
   } catch(err) {
     if (err) return console.error(err)
