@@ -11,11 +11,11 @@ describe("TRANSACTIONS", () => {
   describe("Show transactions", () => {
   
   before(() => listOfBanks[0].getTransactions().push(
-      new Transaction("testID", "debitorBankTest", "debitorNameTest", "creditorBankTest", "creditorNameTest", 1000)
+      new Transaction("testid", "debitorBankTest", "debitorNameTest", "creditorBankTest", "creditorNameTest", "descriptionTest", 1000)
       )
   );
   before(() => listOfBanks[1].getTransactions().push(
-    new Transaction("testID", "debitorBankTest", "debitorNameTest", "creditorBankTest", "creditorNameTest", -1000)
+    new Transaction("testid", "debitorBankTest", "debitorNameTest", "creditorBankTest", "creditorNameTest", "descriptionTest", -1000)
     )
   );
   before(() => writeToFile());
@@ -31,7 +31,7 @@ describe("TRANSACTIONS", () => {
   });
 
   it("Show single transaction", async () => {
-    const { status, body: { id } } = await request(app).get(uri + `${listOfBanks[0].getTransactions()[listOfBanks[0].getTransactions().length - 1].getId()}`).set("Accept", "application/json");
+    const { status, body: { id } } = await request(app).get(uri + `testid`).set("Accept", "application/json");
     status.should.equal(200);
     id.should.equal(listOfBanks[0].getTransactions()[listOfBanks[0].getTransactions().length - 1].getId());
   });
@@ -54,6 +54,7 @@ describe("TRANSACTIONS", () => {
         debitor_id: "pippo",
         creditor_id: "saro",
         creditor_bank_id: "fin",
+        description: "test",
         amount: 1
     });
       status.should.equal(201);
@@ -65,6 +66,7 @@ describe("TRANSACTIONS", () => {
         debitor_id: "pippo",
         creditor_id: "wrong",
         creditor_bank_id: "fin",
+        description: "test",
         amount: 1
     });
       status.should.equal(404);
@@ -76,6 +78,7 @@ describe("TRANSACTIONS", () => {
         debitor_id: "wrong",
         creditor_id: "saro",
         creditor_bank_id: "fin",
+        description: "test",
         amount: 1
     });
       status.should.equal(404);
@@ -87,6 +90,7 @@ describe("TRANSACTIONS", () => {
         debitor_id: "pippo",
         creditor_id: "saro",
         creditor_bank_id: "fin",
+        description: "test",
         amount: 100000000
     });
       status.should.equal(401);

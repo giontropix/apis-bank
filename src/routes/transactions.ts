@@ -11,19 +11,19 @@ export const handleErrors = (req: express.Request, res: express.Response, next: 
   else next();
 };
 
-router.get("/:bankId/transactions/", ({params: {bankId}, query: {creditor, debitor, generalUser, creditorBank, debitorBank, generalBank, positive, negative}}, res) => {
+router.get("/:bankId/transactions/", ({params: {bankId}, query: {creditor, debitor, generalUser, creditorBank, debitorBank, generalBank, show}}, res) => {
   const bank = listOfBanks.find((bank) => bank.getId() === bankId.toLowerCase());
   if (!bank) return res.status(404).json({ error: "bank not found" });
   if(debitor) return res.status(201).json({result : bank.getTransactions().filter(transaction => transaction.getDebitorId() === debitor)}) 
   if(creditor) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getCreditorId() === creditor)})
-  if(!positive && !negative && generalUser) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getCreditorId() === generalUser || transaction.getDebitorId() === generalUser)})
+  if(!show && generalUser) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getCreditorId() === generalUser || transaction.getDebitorId() === generalUser)})
   if(creditorBank) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getCreditorBank() === creditorBank)})
   if(debitorBank) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getDebitorBank() === debitorBank)}) 
   if(generalBank) return res.status(201).json({result: bank.getTransactions().filter(transaction => transaction.getDebitorBank() === debitorBank || transaction.getCreditorBank() === creditorBank)})
-  if(!generalUser && positive === "true") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() > 0)})
-  if(!generalUser && negative === "true") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() < 0)})
-  if(generalUser && positive === "true") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() > 0 && transaction.getCreditorId() === generalUser)})
-  if(generalUser && negative === "true") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() < 0 && transaction.getDebitorId() === generalUser)})
+  if(!generalUser && show === "positive") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() > 0)})
+  if(!generalUser && show === "negative") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() < 0)})
+  if(generalUser && show === "positive") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() > 0 && transaction.getCreditorId() === generalUser)})
+  if(generalUser && show === "negative") return res.status(200).json({result: bank.getTransactions().filter(transaction => transaction.getAmount() < 0 && transaction.getDebitorId() === generalUser)})
   return res.status(200).json(bank.getTransactions());
 })
 

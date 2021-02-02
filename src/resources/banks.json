@@ -2,13 +2,13 @@
   {
     "id": "ing",
     "name": "Ing Direct",
-    "balance": 1015,
-    "accountsPlafond": 11898,
+    "balance": 1018,
+    "accountsPlafond": 12893,
     "accounts": [
       {
         "id": "pippo",
         "name": "Pippo",
-        "balance": 797
+        "balance": 791
       },
       {
         "id": "pluto",
@@ -51,26 +51,6 @@
         "description": "test",
         "amount": 101,
         "commission": 0
-      },
-      {
-        "id": "t4",
-        "debitorBank": "ing",
-        "debitorId": "a3",
-        "creditorBank": "ing",
-        "creditorId": "pippo",
-        "description": "test",
-        "amount": -101,
-        "commission": 0
-      },
-      {
-        "id": "t4",
-        "debitorBank": "ing",
-        "debitorId": "a3",
-        "creditorBank": "ing",
-        "creditorId": "pippo",
-        "description": "test",
-        "amount": 101,
-        "commission": 0
       }
     ]
   },
@@ -78,26 +58,15 @@
     "id": "fin",
     "name": "Fineco",
     "balance": 1000,
-    "accountsPlafond": 1101,
+    "accountsPlafond": 1104,
     "accounts": [
       {
         "id": "saro",
         "name": "Saro",
-        "balance": 1101
+        "balance": 1104
       }
     ],
-    "transactions": [
-      {
-        "id": "t1",
-        "debitorBank": "ing",
-        "debitorId": "pippo",
-        "creditorBank": "fin",
-        "creditorId": "saro",
-        "description": "regolamenti di conti",
-        "amount": 101,
-        "commission": 0
-      }
-    ]
+    "transactions": []
   },
   {
     "id": "int",
