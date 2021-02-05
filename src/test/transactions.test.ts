@@ -4,7 +4,7 @@ import { Transaction } from "../Transaction";
 import { app, listOfBanks, readFile, writeToFile } from "../main";
 
 readFile();
-const uri = `/finances/banks/${listOfBanks[0].getId()}/transactions/`;
+const uri = `/banks/${listOfBanks[0].getId()}/transactions/`;
 chai.should();
 
 describe("TRANSACTIONS", () => {

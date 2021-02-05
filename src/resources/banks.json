@@ -2,23 +2,18 @@
   {
     "id": "ing",
     "name": "Ing Direct",
-    "balance": 1018,
-    "accountsPlafond": 12893,
+    "balance": 1020,
+    "accountsPlafond": 2788,
     "accounts": [
       {
         "id": "pippo",
         "name": "Pippo",
-        "balance": 791
+        "balance": 787
       },
       {
         "id": "pluto",
         "name": "Pluto",
         "balance": 1000
-      },
-      {
-        "id": "a3",
-        "name": "Giovanni",
-        "balance": 10101
       }
     ],
     "transactions": [
@@ -58,12 +53,12 @@
     "id": "fin",
     "name": "Fineco",
     "balance": 1000,
-    "accountsPlafond": 1104,
+    "accountsPlafond": 1106,
     "accounts": [
       {
         "id": "saro",
         "name": "Saro",
-        "balance": 1104
+        "balance": 1106
       }
     ],
     "transactions": []

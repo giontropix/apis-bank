@@ -3,8 +3,13 @@ import { listOfBanks, writeToFile } from "../main";
 import { body } from "express-validator";
 import { handleErrors } from "./transactions";
 import { Bank } from "../Bank";
+import { accounts } from "./accounts";
+import { transactions } from "./transactions";
 
-const router = express.Router();
+const router = express.Router({mergeParams: true});
+
+router.use("/:bankId/accounts", accounts)
+router.use("/:bankId/transactions", transactions)
 
 router.get("/", (_, res) => {
   return res.status(200).json(listOfBanks);

@@ -1,6 +1,6 @@
 import chai from "chai";
 import request from "supertest";
-import { app, listOfBanks, readFile, writeToFile } from "../main";
+import { app, listOfBanks, readFile } from "../main";
 
 readFile();
 const uri = `/banks/`;

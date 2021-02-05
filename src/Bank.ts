@@ -10,13 +10,11 @@ export class Bank {
         private transactions: Transaction[] = []
     ) {}
 
-    public getName = (): string => this.name;
     public getId = (): string => this.id;
     public getBalance = (): number => this.balance;
     public getAccounts = (): Account[] => this.accounts;
     public getTransactions = (): Transaction[] => this.transactions;
     public setBalance = (value: number): number => (this.balance = value);
-    public setAccountsPlafond = (value: number): number =>
-        (this.accountsPlafond = value);
+    public setAccountsPlafond = (value: number): number => (this.accountsPlafond = value);
     public getAccountsPlafond = () => this.accountsPlafond;
 }
