@@ -3,17 +3,27 @@
     "id": "ing",
     "name": "Ing Direct",
     "balance": 1020,
-    "accountsPlafond": 2788,
+    "accountsPlafond": 1897,
     "accounts": [
       {
         "id": "pippo",
         "name": "Pippo",
-        "balance": 787
+        "balance": 777
       },
       {
         "id": "pluto",
         "name": "Pluto",
-        "balance": 1000
+        "balance": 1010
+      },
+      {
+        "id": "a3",
+        "name": "test",
+        "balance": 100
+      },
+      {
+        "id": "a4",
+        "name": "test2",
+        "balance": 10
       }
     ],
     "transactions": [
@@ -68,7 +78,32 @@
     "name": "Banca Intesa",
     "balance": 1000,
     "accountsPlafond": 0,
-    "accounts": [],
+    "accounts": [
+      {
+        "id": "a1",
+        "name": "ip",
+        "balance": 0
+      },
+      {
+        "id": "a2",
+        "name": "sss",
+        "balance": 0
+      }
+    ],
+    "transactions": []
+  },
+  {
+    "id": "pop",
+    "name": "Banco Popolare",
+    "balance": 100,
+    "accountsPlafond": 1,
+    "accounts": [
+      {
+        "id": "a1",
+        "name": "ciao",
+        "balance": 1
+      }
+    ],
     "transactions": []
   }
 ]

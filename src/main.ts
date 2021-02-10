@@ -1,17 +1,29 @@
 import express from "express";
+import cors from "cors"
 import bodyParser from "body-parser";
 import fs from "fs";
 import { Account } from "./Account";
 import { Bank } from "./Bank";
-import { transactions } from "./routes/transactions";
-import { accounts } from "./routes/accounts";
 import { banks } from "./routes/banks";
 import { Transaction } from "./Transaction";
 
 export const app = express();
 app.use(bodyParser.json());
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: "http://localhost:4200",
+  preflightContinue: false,
+};
+app.use(cors(options));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.listen(3000, () => console.log("Server started"));
 
 const path: string = "src/resources/banks.json";
 
@@ -55,8 +67,9 @@ const updateBalance = () => {
   return bool;
 }
 
-const timer = () => setInterval(() => { console.log(updateBalance()); writeToFile();}, 3600);
+const timer = () => setInterval(() => { console.log(updateBalance()); writeToFile();}, 3600*100);
 
 timer();
 
 app.use("/banks", readFileMiddleware, banks);
+app.listen(3000, () => console.log("Server started"));

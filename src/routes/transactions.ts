@@ -11,7 +11,7 @@ export const handleErrors = (req: express.Request, res: express.Response, next: 
   else next();
 };
 
-router.get("/", ({params: {bankId}, query: {user, otherBank, show}}, res) => {
+router.get("/", ({params: {bankId}, query: {user, otherBank, show, offset, limit}}, res) => {
   const bank = listOfBanks.find((bank) => bank.getId() === bankId.toLowerCase());
   if (!bank) return res.status(404).json({ error: "bank not found" });
   let transactions = bank.getTransactions();
@@ -23,6 +23,7 @@ router.get("/", ({params: {bankId}, query: {user, otherBank, show}}, res) => {
   if(user) transactions = bank.getTransactions().filter(transaction => transaction.getCreditorId() === user || transaction.getDebitorId() === user)
   if(user && show === "debit") transactions = transactions.filter(transaction => transaction.getDebitorId() === user && transaction.getAmount() < 0)
   if(user && show === "credit") transactions = bank.getTransactions().filter(transaction => transaction.getCreditorId() === user && transaction.getAmount() > 0)
+  if(offset && limit) transactions = bank.getTransactions().slice(Number(offset), Number(offset) + Number(limit));
   return res.status(200).json(transactions);
 })
 
@@ -30,9 +31,19 @@ router.get("/:id", ({ params: { bankId, id } }, res) => {
   const bank = listOfBanks.find((bank) => bank.getId() === bankId.toLowerCase());
   if (!bank) return res.status(404).json({ error: "bank not found" });
   const transaction = bank.getTransactions().find((item) => item.getId() === id.toLowerCase());
-  if (!transaction) return res.status(404).json({ error: "user not found" });
+  if (!transaction) return res.status(404).json({ error: "transaction not found" });
   return res.status(200).json(transaction);
 });
+
+router.delete("/:id", ({params : {bankId, id}}, res) => {
+  const bank = listOfBanks.find((bank) => bank.getId() === bankId.toLowerCase());
+  if (!bank) return res.status(404).json({ error: "bank not found" });
+  const transactionIndex = bank.getTransactions().findIndex((item) => item.getId() === id.toLowerCase());
+  if (transactionIndex === -1) return res.status(404).json({ error: "transaction not found" });
+  bank.getTransactions().splice(transactionIndex, 1);
+  writeToFile()
+  return res.status(201).json({message: "transaction removed"});
+})
 
 router.post(
   "/",
